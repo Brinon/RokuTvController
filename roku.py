@@ -38,7 +38,7 @@ class Roku:
                               f'text: {r.text}')
     return r
 
-  def __init__(self, url):
+  def __init__(self, url, static_path=None):
     self.url = f'http://{url}:8060'
     self.make_request('get', '/')
     self.apps = self.list_apps()
@@ -102,8 +102,8 @@ class Roku:
         version=app_element.attrib.get('version'),
     )
 
-  def icon_for_app(self, app_id):
-    pass
+  # def download_icon_for_app(self, app_id):
+    # r = self.make_request('get', '/query/icon/{app_id}')
 
   def launch_app(self, app_name=None, app_id=None):
     """ Launch an app by name """
@@ -118,5 +118,5 @@ class Roku:
              if app_name else f'App id: {app_id} is not installed in the tv')
       raise AppNotInstalledException(msg)
     app = apps[0]
-    self.make_request('post', f'/launch/{app.app_id}')
+    self.make_request('post', f'/launch/{app.id}')
     return self
