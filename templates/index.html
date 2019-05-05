@@ -42,7 +42,7 @@
         <td class="tg-0lax">{{ app.app_type }}</td>
         <td class="tg-0lax">{{ app.name == current_app.name }}</td>
         <td class="tg-0lax">
-          <form action={{ url_for("views.launch", app_id = app.app_id) }}  method="post" id="nameform">
+          <form action={{ url_for("views.launch", app_id = app.id) }}  method="post" id="nameform">
             <input type="submit" class="btn btn-primary" name="btn_launch {{app.name}}" value=Launch />
           </form>
         </td>

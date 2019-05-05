@@ -21,7 +21,7 @@ class AppNotInstalledException(Exception):
 @dataclass
 class RokuApp:
   name: str
-  app_id: str
+  id: str
   app_type: str
   version: str
 
@@ -85,7 +85,7 @@ class Roku:
     return [
         RokuApp(
             name=app_element.text.replace(u'\xa0', ' '),
-            app_id=app_element.attrib.get('id'),
+            id=app_element.attrib.get('id'),
             app_type=app_element.attrib.get('type'),
             version=app_element.attrib.get('version'),
         ) for app_element in tree
@@ -97,10 +97,13 @@ class Roku:
     app_element = tree[0]
     return RokuApp(
         name=app_element.text.replace(u'\xa0', ' '),
-        app_id=app_element.attrib.get('id'),
+        id=app_element.attrib.get('id'),
         app_type=app_element.attrib.get('type'),
         version=app_element.attrib.get('version'),
     )
+
+  def icon_for_app(self, app_id):
+    pass
 
   def launch_app(self, app_name=None, app_id=None):
     """ Launch an app by name """
@@ -109,7 +112,7 @@ class Roku:
     if app_name:
       apps = [a for a in self.apps if a.name == app_name]
     elif app_id:
-      apps = [a for a in self.apps if a.app_id == app_id]
+      apps = [a for a in self.apps if a.id == app_id]
     if not apps:
       msg = (f'App name: {app_name} is not installed in the tv'
              if app_name else f'App id: {app_id} is not installed in the tv')
