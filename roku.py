@@ -42,16 +42,25 @@ class Roku:
 
   def press_key(self, key):
     self.make_request('post', f'/keydown/{key}')
+    return self
 
   def turn_on(self):
+    """ turn on the tv, blocks until ready """
     if self.power_on:
-      return
+      return self
     self.press_key('power')
+    while not self.power_on:
+      pass
+    return self
 
-  def turn_of(self):
+  def turn_off(self):
+    """ turns off the tv, blocks until fully off """
     if not self.power_on:
-      return
+      return self
     self.press_key('power')
+    while self.power_on:
+      pass
+    return self
 
   @property
   def power_on(self):
@@ -91,8 +100,10 @@ class Roku:
     )
 
   def launch_app(self, app_name):
+    """ Launch an app by name """
     app = [a for a in self.apps if a.name == app_name]
     if not app:
       raise AppNotInstalledException(f'App {app_name} is not installed in the tv')
     app = app[0]
     self.make_request('post', f'/launch/{app.app_id}')
+    return self

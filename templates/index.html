@@ -11,22 +11,39 @@
   <div class="row">
     Roku Tv is on: {{ power_is_on }}
   </div>
-
   <div class="row">
-    Current channel: {{ current_app.name }} with id {{ current_app.id }}
+    Current channel: {{ current_app.name }}  
+  </div>
+
+  <div class="row form-div">
+    <form action="/launch" method="post" id="form1">
+      Channel name <input type="text" name="fname"><br>
+    </form>
+    <button type="submit" form="form1" value="Submit">Launch channel</button>
   </div>
 
   <div class="row">
-    Channels:<br>
-
-    {% for app in installed_apps %}
-
-      <div>
-        {{ app.name }} with id {{ app.app_id }}
-      </div>
-
-      <br>
-    {% endfor %}
+    <table class="tg">
+      <tr>
+        <th class="tg-0lax">channel</th>
+        <th class="tg-0lax">type</th>
+        <th class="tg-0lax">is active</th>
+        <th class="tg-0lax">activate</th>
+      </tr>
+      {% for app in installed_apps %}
+      <tr>
+        <td class="tg-0lax">{{ app.name }}</td>
+        <td class="tg-0lax">{{ app.app_type }}</td>
+        <td class="tg-0lax">{{ app.name == current_app.name }}</td>
+        <td class="tg-0lax">
+          <form action={{ url_for("views.launch_app") }} method="post" id="nameform">
+            <input type="text" name="app_name" value={{ app.name }}><br>
+            <input type="submit" name="app_name" value={{ app.name }} />
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
   </div>
 </div>
 {% endblock %}
