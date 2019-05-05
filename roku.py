@@ -99,11 +99,18 @@ class Roku:
         version=app_element.attrib.get('version'),
     )
 
-  def launch_app(self, app_name):
+  def launch_app(self, app_name=None, app_id=None):
     """ Launch an app by name """
-    app = [a for a in self.apps if a.name == app_name]
-    if not app:
-      raise AppNotInstalledException(f'App {app_name} is not installed in the tv')
-    app = app[0]
+    if not (app_id or app_name):
+      raise TypeError('Must provide at least one of app_id, app_name')
+    if app_name:
+      apps = [a for a in self.apps if a.name == app_name]
+    elif app_id:
+      apps = [a for a in self.apps if a.app_id == app_id]
+    if not apps:
+      msg = (f'App name: {app_name} is not installed in the tv'
+             if app_name else f'App id: {app_id} is not installed in the tv')
+      raise AppNotInstalledException(msg)
+    app = apps[0]
     self.make_request('post', f'/launch/{app.app_id}')
     return self

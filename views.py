@@ -24,15 +24,11 @@ def index():
   )
 
 
-@views.route('/launch', methods=['POST'])
-def launch_app():
-  current_app.logger.info('launching %s', request.args)
-  app_name = request.args.get('app_name')
-  if not app_name:
-    flash(f'app {app_name} not installed!\n{request.args}')
-  current_app.roku.launch_app(app_name)
-  flash(f'Launching {app_name}')
-  return redirect(url_for('index'))
+@views.route('/launch/<app_id>', methods=['POST'])
+def launch(app_id):
+  current_app.roku.launch_app(app_id=app_id)
+  flash(f'Launching {app_id}')
+  return redirect(url_for('views.index'))
 
 
 @views.after_request
