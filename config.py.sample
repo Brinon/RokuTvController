@@ -1,0 +1,7 @@
+TESTING = True
+CSRF_ENABLED = True
+DEBUG=True
+
+SECRET_KEY = 
+
+ROKU_TV_IP=
