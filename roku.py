@@ -1,3 +1,6 @@
+""" Client to interact with a roku device
+API docs: https://sdkdocs.roku.com/display/sdkdoc/External+Control+API
+"""
 import logging
 import xml.etree.ElementTree as ET
 

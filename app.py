@@ -8,14 +8,7 @@ from roku import Roku
 
 def make_app():
   app = Flask(__name__)
-  # app.config.from_object('config')
-  app.config.update(
-      DEBUG=True,
-      TESTING=True,
-      ROKU_TV_IP='192.168.0.5',
-      SECRET_KEY=b'_5#y2L"F4Q8z\n\xec]/',
-      LOGLEVEL=logging.info,
-  )
+  app.config.from_object('config')
 
   # setup loggers
   gunicorn_logger = logging.getLogger('gunicorn.info')
