@@ -9,10 +9,23 @@
   </div>
 
   <div class="row">
-    Roku Tv is on: {{ power_is_on }}
+    <p>Roku Tv is on: {{ str(power_is_on) }}</p>
   </div>
+
   <div class="row">
-    Current channel: {{ current_app.name }}  
+    {% if not power_is_on %}
+    <form action={{ url_for("views.power", value="on")}} method="post">
+      <input type="submit" class="btn btn-success" value="Power On">
+    </form>
+    {% else %}
+      <form action={{ url_for("views.power", value="off")}} method="post">
+        <input type="submit" class="btn btn-danger" value="Power Off">
+      </form>
+    {% endif %}
+  </div>
+
+  <div class="row">
+    <p>Current channel: {{ current_app.name }}</p>
   </div>
 
   <div class="row">
@@ -30,7 +43,7 @@
         <td class="tg-0lax">{{ app.name == current_app.name }}</td>
         <td class="tg-0lax">
           <form action={{ url_for("views.launch", app_id = app.app_id) }}  method="post" id="nameform">
-            <input type="submit" name="btn_launch {{app.name}}" value=Launch />
+            <input type="submit" class="btn btn-primary" name="btn_launch {{app.name}}" value=Launch />
           </form>
         </td>
       </tr>

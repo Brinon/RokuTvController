@@ -31,6 +31,18 @@ def launch(app_id):
   return redirect(url_for('views.index'))
 
 
+@views.route('/power/<value>', methods=['POST'])
+def power(value):
+  """ switch the power of the device """
+  if value == 'on':
+    current_app.roku.turn_on()
+  elif value == 'off':
+    current_app.roku.turn_off()
+  else:
+    raise ValueError(f'value shoud be one of on, off')
+  return redirect(url_for('views.index'))
+
+
 @views.after_request
 def log_request(response):
   current_app.logger.info('Incoming request from %s: %s %s -> %s', request.remote_addr,
