@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="row justify-content-md-center title-div">
+      <h1 class="mt-5">Roku Controller</h1>
+  </div>
+
+  <div class="row">
+    Roku Tv is on: {{ power_is_on }}
+  </div>
+
+  <div class="row">
+    Current channel: {{ current_app.name }} with id {{ current_app.id }}
+  </div>
+
+  <div class="row">
+    Channels:<br>
+
+    {% for app in installed_apps %}
+
+      <div>
+        {{ app.name }} with id {{ app.app_id }}
+      </div>
+
+      <br>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
